@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
+
 
 import Footer from './Footer';
 
@@ -13,7 +15,7 @@ export default function SelectSession () {
     const [times, setTimes] = useState([]);
 
     useEffect(() => {
-        const promise =axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${movieId}/showtimes`);
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${movieId}/showtimes`);
 
         promise.then(response => {
             setMovie(response.data)
@@ -41,21 +43,23 @@ export default function SelectSession () {
 }
 
 
-function DateButton ({dateId, day, date, horario, sessionId}) {
+function DateButton ({dateId, day, date, horario}) {
     return (
         <>
             <div className="box-date">
                 <h3>{day} - {date}</h3>
                 <div className="box-buttons-date">
-                    {horario.map((el) => <TimeButton name={el.name} />)}
+                    {horario.map((el) => <TimeButton name={el.name} sessionId={el.id}/>)}
                 </div>
             </div>
         </>
     )
 }
 
-function TimeButton ({name}) {
+function TimeButton ({name, sessionId}) {
     return (
-        <div className="button-date"><h4>{name}</h4></div>
+        <Link to={`/assentos/${sessionId}`}>
+            <div className="button-date"><h4>{name}</h4></div>
+        </Link>
     )
 }
