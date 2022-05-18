@@ -2,6 +2,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect} from 'react';
 
+import Footer from './Footer';
+
 
 export default function SelectSession () {
     
@@ -22,32 +24,38 @@ export default function SelectSession () {
             setError(true);
         })
     }, []);
-    console.log(times)
+    console.log(movie)
     return (
         <>
-            <div className="box-h2">
-            {!error ? null : "Ja era deu ruim hein"}
-                <h2>Selecione o horário</h2>
-            </div>
-            
-            {times.map((info, index) => <TimeButton dateId={info.id} day={info.weekday} date={info.date} key={index} horario={info.showtimes}/>)}     
+            <div className="container-sessions">
+                <div className="box-h2">
+                    {!error ? null : "Ja era deu ruim hein"}
+                    <h2>Selecione o horário</h2>
+                </div>
+                {times.length === 0 ? 'Loading' : times.map((info, index) => <DateButton dateId={info.id} day={info.weekday} date={info.date} key={index} horario={info.showtimes}/>)} 
+                <Footer img={movie.posterURL} title={movie.title}/> 
+            </div>   
         </>
     )
 
 }
 
 
-function TimeButton ({dateId, day, date, horario, sessionId}) {
+function DateButton ({dateId, day, date, horario, sessionId}) {
     return (
         <>
             <div className="box-date">
                 <h3>{day} - {date}</h3>
-            </div>
-            <div className="box-buttons-date">
-                <div className="button-date">
-                <h4>{horario.map((el) => el.name)}</h4>
+                <div className="box-buttons-date">
+                    {horario.map((el) => <TimeButton name={el.name} />)}
                 </div>
             </div>
         </>
+    )
+}
+
+function TimeButton ({name}) {
+    return (
+        <div className="button-date"><h4>{name}</h4></div>
     )
 }
