@@ -34,7 +34,7 @@ export default function SelectSession () {
                     {!error ? null : "Ja era deu ruim hein"}
                     <h2>Selecione o horário</h2>
                 </div>
-                {times.length === 0 ? 'Loading' : times.map((info, index) => <DateButton dateId={info.id} day={info.weekday} date={info.date} key={index} horario={info.showtimes}/>)} 
+                {times.length === 0 ? 'Loading' : times.map(info => <DateButton dateId={info.id} day={info.weekday} date={info.date}  horario={info.showtimes}/>)} 
                 <Footer img={movie.posterURL} title={movie.title}/> 
             </div>   
         </>

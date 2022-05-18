@@ -3,10 +3,13 @@ import axios from 'axios';
 import { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 
+import Footer from './Footer';
+
 
 export default function SelectSpot () {
     const { sessionId } = useParams();
-    const [seats, setSeats] = useState({});
+    const [seatsData, setSeatsData] = useState({});
+    const [seats, setSeats] = useState([]);
     const [error, setError] = useState(false);
 
 
@@ -14,7 +17,8 @@ export default function SelectSpot () {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${sessionId}/seats`);
 
         promise.then(response => {
-            setSeats(response.data);
+            setSeatsData(response.data);
+            setSeats(response.data.seats)
         })
         .catch(res => {
             setError(true);
@@ -23,10 +27,29 @@ export default function SelectSpot () {
     console.log(seats)
     return (
         <>
+            {!error ? null : "deu ruim amigao"}
             <div className="container-seats">
                 <div className="box-h2">Selecione o(s) assento(s)</div>
+                <div className="box-seats">
+                    {seats.map(info => <Seat name={info.name} />)}
+                </div>
+                <div className="captions-seats"></div>
+                <div className="input-box">
+                    <input type="text" />
+                </div>
+                <div className="input-box">
+                    <input type="text" />
+                </div>
+                <div className="order-button"></div>
             </div>
+            <Footer />
         </>
     )
 
+}
+
+function Seat ({name}) {
+    return (
+        <div className="seat"><span>{name}</span></div>
+    )
 }
