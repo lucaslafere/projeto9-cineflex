@@ -33,7 +33,11 @@ export default function SelectSpot () {
                 <div className="box-seats">
                     {seats.map(info => <Seat name={info.name} />)}
                 </div>
-                <div className="captions-seats"></div>
+                <div className="captions-seats">
+                    <div className="seat"></div>
+                    <div className="seat"></div>
+                    <div className="seat"></div>
+                </div>
                 <div className="input-box">
                     <input type="text" />
                 </div>

@@ -173,6 +173,7 @@ body {
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+    margin-bottom: 12px;
 }
 .seat {
     display: flex;
@@ -193,4 +194,11 @@ span {
     letter-spacing: 0.04em;
 
     color: #000000;
+}
+.captions-seats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 70px;
 }
