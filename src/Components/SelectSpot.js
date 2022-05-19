@@ -78,7 +78,7 @@ export default function SelectSpot () {
 function Seats ({name, available, selected, setSelected}) {
 
     return (
-        <Seat available={available} onClick={() => setSelected(true)} selected={selected}>
+        <Seat available={available}>
             <span>{name}</span>
         </Seat>
     )
