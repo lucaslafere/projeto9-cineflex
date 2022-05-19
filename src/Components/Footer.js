@@ -4,8 +4,12 @@ export default function Footer ({img, title, hour, day}) {
             <div className="footer-img-box">
                 <img src={img} alt={title} />
             </div>
-            <h3>{title}</h3>
-            <span>{day} - {hour}</span>
+            <div className="footer-text">
+                <h3>{title}</h3>
+                {day ? <p>{day} - {hour}</p> : ""}
+                
+            </div>
+            
         </div>
     )
 }

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 import Footer from './Footer';
 
@@ -10,8 +11,12 @@ export default function SelectSpot () {
     const { sessionId } = useParams();
     const [seatsData, setSeatsData] = useState({});
     const [seats, setSeats] = useState([]);
+
     const [error, setError] = useState(false);
+
     const [isLoading, setisLoading] = useState(true);
+    const [selected, setSelected] = useState(false)
+
 
 
     useEffect(() => {
@@ -26,8 +31,6 @@ export default function SelectSpot () {
             setError(true);
         })
     }, []);
-    console.log(seats)
-    console.log(seatsData)
 
     if (isLoading) {
         return "Aguarde um momento"
@@ -38,19 +41,19 @@ export default function SelectSpot () {
             <div className="container-seats">
                 <div className="box-h2">Selecione o(s) assento(s)</div>
                 <div className="box-seats">
-                    {seats.map((info, index) => <Seat name={info.name} key={index} available={info.isAvailable}/>)}
+                    {seats.map((info, index) => <Seats name={info.name} key={index} available={info.isAvailable} selected={selected} setSelected={setSelected} />)}
                 </div>
                 <div className="captions-seats">
                     <div className="seat-option">
-                        <div className="seat selected"></div>
+                        <SeatSelected />
                         <span>Selecionado</span>
                     </div>
                     <div className="seat-option">
-                        <div className="seat"></div>
+                        <Seat available={true}/>
                         <span>Disponível</span>
                     </div>
                     <div className="seat-option">
-                        <div className="seat unavailable"></div>
+                        <Seat />  
                         <span>Indisponível</span>
                     </div>
                 </div>
@@ -72,8 +75,36 @@ export default function SelectSpot () {
 
 }
 
-function Seat ({name, available}) {
+function Seats ({name, available, selected, setSelected}) {
+
     return (
-        <div className={available ? "seat" : "seat unavailable"}><span>{name}</span></div>
+        <Seat available={available} onClick={() => setSelected(true)} selected={selected}>
+            <span>{name}</span>
+        </Seat>
     )
 }
+
+
+const Seat = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 26px;
+    width: 26px;
+    background-color: ${props => props.available ? ('#C3CFD9') : ('#FBE192')};
+    border: 1px solid #808F9D;
+    border-radius: 12px;
+` 
+
+const SeatSelected = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 26px;
+    width: 26px;
+    background: #8DD7CF;
+    border: 1px solid #1AAE9E;
+    border-radius: 17px;
+    `
+
+
