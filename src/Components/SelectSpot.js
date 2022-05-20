@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
 import Footer from './Footer';
+import { BoxTitle } from './SelectMovie';
 
 
 export default function SelectSpot () {

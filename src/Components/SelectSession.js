@@ -2,9 +2,9 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-
-
+import { BoxTitle } from './SelectMovie';
 import Footer from './Footer';
+import styled from 'styled-components';
 
 
 export default function SelectSession () {
@@ -29,14 +29,14 @@ export default function SelectSession () {
     console.log(movie)
     return (
         <>
-            <div className="container-sessions">
-                <div className="box-h2">
+            <Container>
+                <BoxTitle>
                     {!error ? null : "Ja era deu ruim hein"}
                     <h2>Selecione o horário</h2>
-                </div>
+                </BoxTitle>
                 {times.length === 0 ? 'Loading' : times.map(info => <DateButton dateId={info.id} day={info.weekday} date={info.date}  horario={info.showtimes}/>)} 
                 <Footer img={movie.posterURL} title={movie.title}/> 
-            </div>   
+            </Container>   
         </>
     )
 
@@ -46,12 +46,12 @@ export default function SelectSession () {
 function DateButton ({dateId, day, date, horario}) {
     return (
         <>
-            <div className="box-date">
+            <BoxDate>
                 <h3>{day} - {date}</h3>
-                <div className="box-buttons-date">
+                <BoxButtonsDate>
                     {horario.map((el) => <TimeButton name={el.name} sessionId={el.id}/>)}
-                </div>
-            </div>
+                </BoxButtonsDate>
+            </BoxDate>
         </>
     )
 }
@@ -59,7 +59,46 @@ function DateButton ({dateId, day, date, horario}) {
 function TimeButton ({name, sessionId}) {
     return (
         <Link to={`/assentos/${sessionId}`}>
-            <div className="button-date"><h4>{name}</h4></div>
+            <ButtonDate><h4>{name}</h4></ButtonDate>
         </Link>
     )
 }
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-left: 24px;
+    margin-right: 24px;
+`
+
+const BoxButtonsDate = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 10px;
+`
+const BoxDate = styled.div``
+
+const ButtonDate = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #E8833A;
+    border-radius: 3px;
+
+    width: 84px;
+    height: 44px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    h4 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.02em;
+
+    color: #FFFFFF;
+}
+`
