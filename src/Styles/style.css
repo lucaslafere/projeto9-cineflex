@@ -34,13 +34,12 @@ body {
 
 span {
     font-family: 'Roboto', sans-serif;
-    font-size: 11px;
+    font-size: 0.8rem;
     line-height: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
     letter-spacing: 0.04em;
-
     color: #000000;
 }
 .captions-seats {
@@ -72,13 +71,11 @@ span {
     justify-content: center;
     height: 26px;
     width: 26px; 
-}
-
-.available {
     background: #C3CFD9;
     border: 1px solid #808F9D;
     border-radius: 12px;
 }
+
 
 .unavailable {
     background: #FBE192;
@@ -100,8 +97,6 @@ span {
     display: flex;
     align-items: center;
     padding: 14px;
-
-
 
     font-style: italic;
     font-weight: 400;

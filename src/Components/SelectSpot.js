@@ -15,10 +15,7 @@ export default function SelectSpot () {
     const [error, setError] = useState(false);
 
     const [isLoading, setisLoading] = useState(true);
-    const [selected, setSelected] = useState(false)
-
-
-
+    
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${sessionId}/seats`);
 
@@ -41,7 +38,7 @@ export default function SelectSpot () {
             <div className="container-seats">
                 <BoxTitle>Selecione o(s) assento(s)</BoxTitle>
                 <div className="box-seats">
-                    {seats.map((info, index) => <Seats name={info.name} key={index} available={info.isAvailable} selected={selected} setSelected={setSelected} />)}
+                    {seats.map((info, index) => <Seats name={info.name} key={index} available={info.isAvailable} />)}
                 </div>
                 <div className="captions-seats">
                     <div className="seat-option">
@@ -49,11 +46,11 @@ export default function SelectSpot () {
                         <span>Selecionado</span>
                     </div>
                     <div className="seat-option">
-                        <Seat available={true}/>
+                        <div className="seat"></div>
                         <span>Disponível</span>
                     </div>
                     <div className="seat-option">
-                        <Seat />  
+                        <div className="seat unavailable"></div>  
                         <span>Indisponível</span>
                     </div>
                 </div>
@@ -75,26 +72,26 @@ export default function SelectSpot () {
 
 }
 
-function Seats ({name, available, selected, setSelected}) {
+function Seats ({name, available}) {
+    const [selected, setSelected] = useState(false)
+
+    function change () {
+        if (available && !selected) {
+            setSelected(true)
+            console.log(selected)
+            console.log('mudei')
+        }
+        else if (available && selected){
+            setSelected(false)
+            console.log(selected)
+            console.log('mudei de novo')
+        }
+    }
 
     return (
-        <Seat available={available}>
-            <span>{name}</span>
-        </Seat>
+        <div className={available ? "seat" : "seat unavailable"} onClick={change}><span>{name}</span></div>
     )
 }
-
-
-const Seat = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 26px;
-    width: 26px;
-    background-color: ${props => props.available ? ('#C3CFD9') : ('#FBE192')};
-    border: 1px solid #808F9D;
-    border-radius: 12px;
-` 
 
 const SeatSelected = styled.div`
     display: flex;
