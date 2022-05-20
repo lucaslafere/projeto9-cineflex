@@ -39,7 +39,7 @@ export default function SelectSpot () {
         <>
             {!error ? null : "deu ruim amigao"}
             <div className="container-seats">
-                <div className="box-h2">Selecione o(s) assento(s)</div>
+                <BoxTitle>Selecione o(s) assento(s)</BoxTitle>
                 <div className="box-seats">
                     {seats.map((info, index) => <Seats name={info.name} key={index} available={info.isAvailable} selected={selected} setSelected={setSelected} />)}
                 </div>
