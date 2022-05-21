@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Footer from './Footer';
 import { BoxTitle } from './SelectMovie';
+import Success from './Success';
 
 
 export default function SelectSpot () {
@@ -50,7 +51,7 @@ export default function SelectSpot () {
         event.preventDefault();
         setPostId([...idArray]);
         const request = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", body);
-        request.then(() => console.log("enviou"))
+        request.then(() => console.log("enviou" + body))
         request.catch(err => console.log("err") )
 
     }
@@ -67,7 +68,7 @@ export default function SelectSpot () {
             <div className="container-seats">
                 <BoxTitle>Selecione o(s) assento(s)</BoxTitle>
                 <div className="box-seats">
-                    {seats.map((info, index) => <Seats name={info.name} key={index} available={info.isAvailable} id={info.id} postId={postId} setPostId={setPostId} idArray={idArray} />)}
+                    {seats.map((info, index) => <Seats name={info.name} key={index} available={info.isAvailable} id={info.id} setPostId={setPostId} idArray={idArray} hour={seatsData.name} day={seatsData.day.date} title={seatsData.movie.title} />)}
                 </div>
                 <div className="captions-seats">
                     <div className="seat-option">
@@ -88,57 +89,51 @@ export default function SelectSpot () {
                         <input type="text" value={name} onChange={e => setName(e.target.value)} id='NameField' required placeholder='Digite seu nome...' />
                     <label htmlFor="CPF">CPF do comprador:</label>
                         <input type="text" value={cpf} onChange={e => setCpf(e.target.value)} id='CPF' required placeholder='Digite seu CPF...' />
-                    <Link to={"/sucesso"}>
+                    {/* <Link to={"/sucesso"}> */}
                     <div className="order-button">
                         <button type='submit' className='order'>Reservar Assento(s)</button>
                     </div>
-                    </Link>
+                    {/* </Link> */}
                 </form>
             </div>
+            
             {seatsData.length === 0 ? "Carregando, aguarde um instante" : <Footer hour={seatsData.name} day={seatsData.day.weekday} title={seatsData.movie.title} img={seatsData.movie.posterURL} />}
         </>
     )
 
 }
 
-function Seats ({name, available, id, idArray, postId, setPostId}) {
+function Seats ({name, available, id, idArray, setPostId, hour, day, title}) {
     const [selected, setSelected] = useState(false)
 
     function change () {
         if (available && !selected) {
             setSelected(true)
-            console.log(selected)
             idArray.push(id)
-            console.log(idArray)
             setPostId([...idArray])
-            console.log(postId)
 
         }
         else if (available && selected){
             setSelected(false)
-            console.log(selected)
-            idArray.pop();
-            console.log(idArray)
-            setPostId([...idArray])
-            console.log(postId)
-            
+            setPostId(idArray.filter((el) => el !== id))
+
         }
     }
 
     if (available && selected) {
         return (
-        <div className="seat selected" onClick={change} id={id}><span>{name}</span></div>
+        <><div className="seat selected" onClick={change} id={id}><span>{name}</span></div><Success seatName={name}  /></>
         )
     }
 
     else if (available && !selected){
         return (
-            <div className="seat" onClick={change} id={id}><span>{name}</span></div>
+            <><div className="seat" onClick={change} id={id}><span>{name}</span></div><Success seatName={name}  /></>
         )
     }
     else if (!available) {
         return (
-        <div className="seat unavailable" onClick={() => alert("Esse assento não está disponível")} id={id}><span>{name}</span></div>
+        <><div className="seat unavailable" onClick={() => alert("Esse assento não está disponível")} id={id}><span>{name}</span></div><Success seatName={name}  /></>
         )
     }
 

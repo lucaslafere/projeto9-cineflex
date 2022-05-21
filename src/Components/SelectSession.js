@@ -26,7 +26,6 @@ export default function SelectSession () {
             setError(true);
         })
     }, []);
-    console.log(movie)
     return (
         <>
             <Container>
