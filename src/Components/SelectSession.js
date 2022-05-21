@@ -7,12 +7,10 @@ import Footer from './Footer';
 import styled from 'styled-components';
 
 
-export default function SelectSession () {
+export default function SelectSession ({movie, setMovie, times, setTimes}) {
     
     const { movieId } = useParams();
-    const [movie, setMovie] = useState({});
     const [error, setError] = useState(false);
-    const [times, setTimes] = useState([]);
 
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${movieId}/showtimes`);
@@ -20,7 +18,6 @@ export default function SelectSession () {
         promise.then(response => {
             setMovie(response.data)
             setTimes([...response.data.days])
-
         })
         .catch(res => {
             setError(true);

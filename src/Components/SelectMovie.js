@@ -2,11 +2,10 @@ import {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-export {BoxTitle};
 
-export default function SelectMovie () {
 
-    const [movieList, setMovieList] = useState([]);
+export default function SelectMovie ({movieList, setMovieList}) {
+
 
     useEffect(() => {
 
@@ -57,6 +56,8 @@ const BoxTitle = styled.div`
     color: #293845;
 }
 `
+export { BoxTitle }
+
 const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
