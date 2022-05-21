@@ -21,11 +21,12 @@ export default function SelectSpot () {
 
         promise.then(response => {
             setSeatsData(response.data);
-            setSeats(response.data.seats)
-            setisLoading(false)
+            setSeats(response.data.seats);
+            setisLoading(false);
         })
         .catch(res => {
             setError(true);
+            console.log(error);
         })
     }, []);
 
@@ -42,7 +43,7 @@ export default function SelectSpot () {
                 </div>
                 <div className="captions-seats">
                     <div className="seat-option">
-                        <SeatSelected />
+                    <div className="seat selected"></div>
                         <span>Selecionado</span>
                     </div>
                     <div className="seat-option">
@@ -88,20 +89,24 @@ function Seats ({name, available}) {
         }
     }
 
-    return (
-        <div className={available ? "seat" : "seat unavailable"} onClick={change}><span>{name}</span></div>
-    )
+    if (available && selected) {
+        return (
+        <div className="seat selected" onClick={change}><span>{name}</span></div>
+        )
+    }
+
+    else if (available && !selected){
+        return (
+            <div className="seat" onClick={change}><span>{name}</span></div>
+        )
+    }
+    else if (!available) {
+        return (
+        <div className="seat unavailable"><span>{name}</span></div>
+        )
+    }
+
 }
 
-const SeatSelected = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 26px;
-    width: 26px;
-    background: #8DD7CF;
-    border: 1px solid #1AAE9E;
-    border-radius: 17px;
-    `
 
 

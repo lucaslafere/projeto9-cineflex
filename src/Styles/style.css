@@ -76,6 +76,11 @@ span {
     border-radius: 12px;
 }
 
+.selected {
+    background: #8DD7CF;
+    border: 1px solid #1AAE9E;
+    border-radius: 17px;
+}
 
 .unavailable {
     background: #FBE192;
