@@ -8,6 +8,7 @@ import { BoxTitle } from './SelectMovie';
 
 
 export default function SelectSpot () {
+    // Variaveis de estado
     const { sessionId } = useParams();
     const [seatsData, setSeatsData] = useState({});
     const [seats, setSeats] = useState([]);
@@ -15,6 +16,14 @@ export default function SelectSpot () {
     const [error, setError] = useState(false);
 
     const [isLoading, setisLoading] = useState(true);
+
+    const [name, setName] = useState("");
+    const [cpf, setCpf] = useState("");
+    const [postId, setPostId] = useState([]);
+
+    let idArray = [...postId];
+
+    //Logic
     
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${sessionId}/seats`);
@@ -30,16 +39,35 @@ export default function SelectSpot () {
         })
     }, []);
 
+    const body = {
+        ids: postId,
+        name,
+        cpf,
+    }
+
+
+    function orderSeats (event) {
+        event.preventDefault();
+        setPostId([...idArray]);
+        const request = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", body);
+        request.then(() => console.log("enviou"))
+        request.catch(err => console.log("err") )
+
+    }
+
+
+
+// Render
     if (isLoading) {
         return "Aguarde um momento"
     }
     return (
-        <>
+        <>  
             {!error ? null : "deu ruim amigao"}
             <div className="container-seats">
                 <BoxTitle>Selecione o(s) assento(s)</BoxTitle>
                 <div className="box-seats">
-                    {seats.map((info, index) => <Seats name={info.name} key={index} available={info.isAvailable} />)}
+                    {seats.map((info, index) => <Seats name={info.name} key={index} available={info.isAvailable} id={info.id} postId={postId} setPostId={setPostId} idArray={idArray} />)}
                 </div>
                 <div className="captions-seats">
                     <div className="seat-option">
@@ -55,17 +83,17 @@ export default function SelectSpot () {
                         <span>Indisponível</span>
                     </div>
                 </div>
-                <div className="input-box">
-                    <h4>Nome do comprador:</h4>
-                    <input type="text" placeholder='Digite seu nome...' />
-                </div>
-                <div className="input-box">
-                    <h4>CPF do comprador:</h4>
-                    <input type="text" placeholder='Digite seu CPF...' />
-                </div>
-                <div className="order-button">
-                    <button className='order'>Reservar Assento(s)</button>
-                </div>
+                <form onSubmit={orderSeats}>
+                    <label htmlFor="NameField">Nome do comprador:</label>    
+                        <input type="text" value={name} onChange={e => setName(e.target.value)} id='NameField' required placeholder='Digite seu nome...' />
+                    <label htmlFor="CPF">CPF do comprador:</label>
+                        <input type="text" value={cpf} onChange={e => setCpf(e.target.value)} id='CPF' required placeholder='Digite seu CPF...' />
+                    <Link to={"/sucesso"}>
+                    <div className="order-button">
+                        <button type='submit' className='order'>Reservar Assento(s)</button>
+                    </div>
+                    </Link>
+                </form>
             </div>
             {seatsData.length === 0 ? "Carregando, aguarde um instante" : <Footer hour={seatsData.name} day={seatsData.day.weekday} title={seatsData.movie.title} img={seatsData.movie.posterURL} />}
         </>
@@ -73,36 +101,44 @@ export default function SelectSpot () {
 
 }
 
-function Seats ({name, available}) {
+function Seats ({name, available, id, idArray, postId, setPostId}) {
     const [selected, setSelected] = useState(false)
 
     function change () {
         if (available && !selected) {
             setSelected(true)
             console.log(selected)
-            console.log('mudei')
+            idArray.push(id)
+            console.log(idArray)
+            setPostId([...idArray])
+            console.log(postId)
+
         }
         else if (available && selected){
             setSelected(false)
             console.log(selected)
-            console.log('mudei de novo')
+            idArray.pop();
+            console.log(idArray)
+            setPostId([...idArray])
+            console.log(postId)
+            
         }
     }
 
     if (available && selected) {
         return (
-        <div className="seat selected" onClick={change}><span>{name}</span></div>
+        <div className="seat selected" onClick={change} id={id}><span>{name}</span></div>
         )
     }
 
     else if (available && !selected){
         return (
-            <div className="seat" onClick={change}><span>{name}</span></div>
+            <div className="seat" onClick={change} id={id}><span>{name}</span></div>
         )
     }
     else if (!available) {
         return (
-        <div className="seat unavailable"><span>{name}</span></div>
+        <div className="seat unavailable" onClick={() => alert("Esse assento não está disponível")} id={id}><span>{name}</span></div>
         )
     }
 
