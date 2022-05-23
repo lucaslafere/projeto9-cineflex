@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export default function Footer ({img, title, hour, day}) {
+export default function Footer({ img, title, hour, day }) {
     return (
         <FooterDiv>
             <FooterImgBox>
@@ -10,7 +10,7 @@ export default function Footer ({img, title, hour, day}) {
                 <h3>{title}</h3>
                 {day ? <p>{day} - {hour}</p> : ""}
             </FooterText>
-            
+
         </FooterDiv>
     )
 }

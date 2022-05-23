@@ -1,42 +1,42 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
 
-export default function SelectMovie ({movieList, setMovieList}) {
+export default function SelectMovie({ movieList, setMovieList }) {
 
 
     useEffect(() => {
 
-    const promise = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies");
-    
-    promise.then(response => {
-        setMovieList([...response.data])
-    });
-}, []);
+        const promise = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies");
 
-   return (
-       <>
-        <BoxTitle>
-            <h2>Selecione o filme</h2>
-        </BoxTitle>
+        promise.then(response => {
+            setMovieList([...response.data])
+        });
+    }, []);
 
-        <Container>
-            {movieList === null ? 'Aguarde um instante' :
-            movieList.map((movie, index) => <Movie img={movie.posterURL} id={movie.id} title={movie.title} key={index}/>)}
-        </Container>
-       </>
-   )
+    return (
+        <>
+            <BoxTitle>
+                <h2>Selecione o filme</h2>
+            </BoxTitle>
+
+            <Container>
+                {movieList === null ? 'Aguarde um instante' :
+                    movieList.map((movie, index) => <Movie img={movie.posterURL} id={movie.id} title={movie.title} key={index} />)}
+            </Container>
+        </>
+    )
 }
 
-function Movie ({img, id, title}) {
+function Movie({ img, id, title }) {
     return (
-        <Link to={`/sessoes/${id}`}>     
+        <Link to={`/sessoes/${id}`}>
             <MovieBox>
                 <img src={img} alt={title} />
             </MovieBox>
-        </Link>        
+        </Link>
     )
 }
 
@@ -63,7 +63,7 @@ const Container = styled.div`
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-around;
-` 
+`
 
 const MovieBox = styled.div`
     display: flex;

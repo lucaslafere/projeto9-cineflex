@@ -1,10 +1,10 @@
 import styled from "styled-components"
 
-export default function Navbar () {
+export default function Navbar() {
     return (
-            <Header>
-                <h1>CINEFLEX</h1>
-            </Header>
+        <Header>
+            <h1>CINEFLEX</h1>
+        </Header>
     )
 }
 

@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 
 import "./Styles/reset.css";
 import "./Styles/style.css";

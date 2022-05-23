@@ -2,13 +2,13 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom';
 
 
-export default function Success ({seatsData, name, cpf, seatName, setMovie, setSeatsData, setName, setCpf, setSeatName, setMovieList, setTimes, setSeats, setPostId}) {
+export default function Success({ seatsData, name, cpf, seatName, setMovie, setSeatsData, setName, setCpf, setSeatName, setMovieList, setTimes, setSeats, setPostId }) {
 
     const title = (seatsData.movie.title)
     const date = (seatsData.day.date)
     const hour = (seatsData.name)
 
-    function reset () {
+    function reset() {
         setMovie({});
         setSeatsData({});
         setName("");
@@ -42,7 +42,7 @@ export default function Success ({seatsData, name, cpf, seatName, setMovie, setS
                 </ContentBox>
                 <HomeButton>
                     <Link to={"/"}>
-                    <button onClick={reset}>Voltar para home</button>
+                        <button onClick={reset}>Voltar para home</button>
                     </Link>
                 </HomeButton>
             </Container>
